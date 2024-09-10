@@ -2,12 +2,12 @@ from setuptools import setup, find_packages
 
 setup(
     name='genesis_metallicity',
-    version='0.1',
+    version='0.2',
     packages=find_packages(),
     description='non-parametric gas-phase metallicity and electron temperature estimation',
     author='Danial Langeroodi',
     author_email='dlangaroudi@gmail.com',
-    url='will_be_updated',
+    url='https://github.com/langeroodi/genesis_metallicity',
     classifiers=[
         'Programming Language :: Python :: 3',
         'Operating System :: OS Independent'],

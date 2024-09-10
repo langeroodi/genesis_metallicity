@@ -23,6 +23,9 @@ class genesis_metallicity:
 
         data_dict = {}
 
+        # object
+        self.object = object
+
         # reading the redshift if it is provided
         try:
             data_dict['redshift'] = input_dict['redshift']
@@ -64,6 +67,12 @@ class genesis_metallicity:
         if 'Hbeta' not in data_dict.keys():
             print_lines()
             raise ImportError('Hbeta flux is required! please provide it under the \'Hbeta\' key in the input dictionary')
+
+        #---- EWHb ----#
+
+        if 'Hbeta_EW' not in data_dict.keys():
+            print_lines()
+            raise ImportError('Hbeta equivalent width is required! please provide it under the \'Hbeta_EW\' key in the input dictionary')
 
         #---- O7320 and O7330 ----#
 
