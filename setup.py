@@ -4,7 +4,7 @@ setup(
     name='genesis_metallicity',
     version='0.1',
     packages=find_packages(),
-    description='non-parametric electron temperature and gas-phase metallicity estimation',
+    description='non-parametric gas-phase metallicity and electron temperature estimation',
     author='Danial Langeroodi',
     author_email='dlangaroudi@gmail.com',
     url='will_be_updated',
