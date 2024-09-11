@@ -70,7 +70,7 @@ print(' -> direct-method metallicity (standard deviation):', galaxy.metallicity.
 
 ### electron temperature estimation
 
-It’s often desirable to estimate the $${\rm O}^{+}$$ electron temperature ($$t2$$) from the directly measured $${\rm O}^{++}$$ electron temperature ($$t3$$). This is particularly the case at high redshifts, where the $$t3$$ can be measured directly from the [O III]$$\lambda$$4363 line, while the $$t2$$ cannot be measured directly because the [O II]7320,30 doublet is often too faint or redshifted out of coverage. In such cases, the $$t2$$ estimations are carried out automatically by ```genesis_metallicity```, and the measured electron temperatures can be accessed as shown below.
+It’s often desirable to estimate the $${\rm O}^{+}$$ electron temperature (t2) from the directly measured $${\rm O}^{++}$$ electron temperature (t3). This is particularly the case at high redshifts, where the t3 can be measured directly from the [O III]$$\lambda$$4363 line, while the t2 cannot be measured directly because the [O II]7320,30 doublet is often too faint or redshifted out of coverage. In such cases, the t2 estimations are carried out automatically by ```genesis_metallicity```, and the measured electron temperatures can be accessed as shown below.
 
 ```python
 from genesis_metallicity.genesis_metallicity import genesis_metallicity
