@@ -2,10 +2,10 @@
 
 non-parametric gas-phase metallicity and electron temperature estimation
 
-- strong-line metallicity etstimation, when temperature-sensitive emission lines are unavailable
-- direct-method metallicity measurement, when the temperature-sensetive [O III]4363 line is detected (can also include [O II]7320,30 if available)
-- estimating the $${\rm O}^{+}$$ zone's electron temperature from that of the $${\rm O}^{++}$$ zone, when direct measurements of the former are unavailable
-- dust reddening correction of the observed emission line fluxes, when multiple Balmer lines are detected
+- __strong-line metallicity etstimation__ when temperature-sensitive emission lines are unavailable
+- __direct-method metallicity measurement__ when the temperature-sensetive [O III]4363 line is detected (can also include [O II]7320,30 if available)
+- __$${\rm O}^{+}$$ electron temperature estimation__ from that of the $${\rm O}^{++}$$ zone when direct measurements of the former are unavailable
+- __dust reddening correction__ of the observed emission line fluxes when multiple Balmer lines are detected
 
 Installation
 -------
