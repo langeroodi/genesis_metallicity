@@ -5,7 +5,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='genesis_metallicity',
-    version='0.93',
+    version='1.0.0',
     packages=find_packages(),
     description='non-parametric gas-phase metallicity and electron temperature estimation',
     author='Danial Langeroodi',
