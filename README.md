@@ -3,7 +3,7 @@
 non-parametric gas-phase metallicity and electron temperature estimation
 
 - strong-line metallicity etstimation, when temperature-sensitive emission lines are unavailable
-- direct-method metallicity measurement, when the temperature-sensetive [O III]$$\lambda$$4363 line is detected (can also include [O II]$$\lambda$$7320,30 if available)
+- direct-method metallicity measurement, when the temperature-sensetive [O III]4363 line is detected (can also include [O II]7320,30 if available)
 - estimating the $${\rm O}^{+}$$ zone's electron temperature from that of the $${\rm O}^{++}$$ zone, when direct measurements of the former are unavailable
 - dust reddening correction of the observed emission line fluxes, when multiple Balmer lines are detected
 
@@ -70,7 +70,7 @@ print(' -> direct-method metallicity (standard deviation):', galaxy.metallicity.
 
 ### electron temperature estimation
 
-It’s often desirable to estimate the $${\rm O}^{+}$$ electron temperature ($$t2$$) from the directly measured $${\rm O}^{++}$$ electron temperature ($$t3$$). This is particularly the case at high redshifts, where the $$t3$$ can be measured directly from the [O III]$$\lambda$$4363 line, while the $$t2$$ cannot be measured directly because the [O II]$$\lambda$$7320,30 doublet is often too faint or redshifted out of coverage. In such cases, the $$t2$$ estimations are carried out automatically by ```genesis_metallicity```, and the measured electron temperatures can be accessed as shown below.
+It’s often desirable to estimate the $${\rm O}^{+}$$ electron temperature ($$t2$$) from the directly measured $${\rm O}^{++}$$ electron temperature ($$t3$$). This is particularly the case at high redshifts, where the $$t3$$ can be measured directly from the [O III]$$\lambda$$4363 line, while the $$t2$$ cannot be measured directly because the [O II]7320,30 doublet is often too faint or redshifted out of coverage. In such cases, the $$t2$$ estimations are carried out automatically by ```genesis_metallicity```, and the measured electron temperatures can be accessed as shown below.
 
 ```python
 from genesis_metallicity.genesis_metallicity import genesis_metallicity
