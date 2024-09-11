@@ -70,6 +70,8 @@ print(' -> direct-method metallicity (standard deviation):', galaxy.metallicity.
 
 ### electron temperature estimation
 
+It’s often desirable to estimate the $${\rm O}^{+}$$ electron temperature $$t_e$$(OII) from the directly measured $${\rm O}^{++}$$ electron temperature $$t_e$$(OIII). This is particularly the case at high redshifts, where the $$t_e$$(OIII) can be measured directly from the [O III]$$\lambda4363$$ line, while the $$t_e$$(OII) can not be measured directly since the [O II]$$\lambda7320,30$$ doublet is often too faint or redshifted out of coverage. The $$t_e$$(OII) estimations are carried out automatically by ```genesis_metallicity``` whenever possible, and the measured electron temperatures can be accessed as shown below.
+
 ```python
 from genesis_metallicity.genesis_metallicity import genesis_metallicity
 
@@ -102,7 +104,7 @@ print('-------------------------------------------------------------------------
 
 ### dust reddening correction
 
-By default, ```genesis_metallicity``` assumes that the input emission line fluxes are the observed values without any reddening correction (this behavior can be modified by the user; see the end of this paragraph). As such, the input line fluxes are automatically corrected for dust reddening. The meaured $$A_{\rm V}$$ as well as the reddening-corrected emission line fluxes can be accessed as shown below. Note that the ```galaxy.reddening_corrected_lines``` outpout is a dictionary, where for example the reddening corrected flux and flux uncertainty of $$H\beta$$ can be accessed as ```galaxy.reddening_corrected_lines['Hbeta'].n``` and ```galaxy.reddening_corrected_lines['Hbeta'].s```, respectively. If the input emission lines are already reddening-corrected, the reddening correction can be switched off by setting ```correct_extinction=False``` in the main ```genesis_metallicity``` function call; i.e., by calling the main routine as ```galaxy = genesis_metallicity(input_dict, object=object, correct_extinction=False)```.
+By default, ```genesis_metallicity``` assumes that the input emission line fluxes are the observed values without any reddening correction (this behavior can be modified by the user; see the end of this paragraph). As such, the input line fluxes are automatically corrected for dust reddening. The meaured $$A_{\rm V}$$ as well as the reddening-corrected emission line fluxes can be accessed as shown below. Note that the ```galaxy.reddening_corrected_lines``` outpout is a dictionary, where for example the reddening corrected flux and flux uncertainty of $$H\beta$$ can be accessed as ```galaxy.reddening_corrected_lines['Hbeta'].n``` and ```galaxy.reddening_corrected_lines['Hbeta'].s```, respectively. If the input emission lines are already reddening-corrected, the reddening correction can be switched off by setting ```correct_extinction=False``` in the main ```genesis_metallicity``` function call; i.e., by calling the main routine as ```genesis_metallicity(input_dict, object=object, correct_extinction=False)```.
 
 ```python
 from genesis_metallicity.genesis_metallicity import genesis_metallicity
