@@ -1,0 +1,8 @@
+matplotlib==3.8.4
+numpy==1.24.3
+PyNeb==1.1.18
+scipy==1.9.3
+setuptools==69.5.1
+uncertainties==3.1.7
+astropy
+h5py

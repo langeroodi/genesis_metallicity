@@ -3,7 +3,7 @@ import warnings
 import numpy as np
 import pickle as pkl
 from scipy import stats
-from asymmetric_uncertainty import a_u
+from uncertainties import ufloat
 
 warnings.filterwarnings("ignore", message="divide by zero encountered in scalar divide")
 warnings.filterwarnings("ignore", message="invalid value encountered in scalar multiply")
@@ -113,5 +113,5 @@ def measure_temperature(O2, O2_unc,
     up_index          = np.argmin(np.abs(cdf-(ml_cdf+percentile/2)))
 
     output_array      = [pdf_t2[lo_index], ml_t2, pdf_t2[up_index]]
-    output_t2         = a_u(output_array[1], np.diff(output_array)[1], np.diff(output_array)[0])
+    output_t2         = ufloat(ml_t2, np.mean(np.diff(output_array)))
     return output_t2

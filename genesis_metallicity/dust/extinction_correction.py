@@ -3,7 +3,8 @@ import numpy as np
 from copy import deepcopy
 from scipy.optimize import curve_fit
 from scipy.optimize import OptimizeWarning
-from asymmetric_uncertainty import a_u
+from uncertainties import ufloat
+from uncertainties import unumpy as unp
 
 from ..data.lines import lines_dict
 from .attenuation import KC13
@@ -31,7 +32,7 @@ class EMISSION_LINES:
 
     #---- initiating the class ----#
 
-    # line_flux is array of a_u
+    # line_flux is array of ufloat
     def __init__(self, object, data_dict, ignore_Ha=False, print_progress=False):
 
         self.object = object
@@ -44,14 +45,14 @@ class EMISSION_LINES:
         try:
             self.Hd = LINE(data_dict['Hdelta'], lines_dict['Hdelta']['lambda'])
         except:
-            self.Hd = LINE(a_u(np.nan, np.nan, np.nan), lines_dict['Hdelta']['lambda'])
+            self.Hd = LINE(ufloat(np.nan, np.nan), lines_dict['Hdelta']['lambda'])
 
         self.Hg = LINE(data_dict['Hgamma'], lines_dict['Hgamma']['lambda'])
         self.Hb = LINE(data_dict['Hbeta'], lines_dict['Hbeta']['lambda'])
         self.Ha = LINE(data_dict['Halpha'], lines_dict['Halpha']['lambda'])
 
         if ignore_Ha:
-            self.Ha = LINE(a_u(np.nan, np.nan, np.nan), lines_dict['Halpha']['lambda'])
+            self.Ha = LINE(ufloat(np.nan, np.nan), lines_dict['Halpha']['lambda'])
 
         #---- setting up the flux and fluxerr arrays ----#
 
@@ -59,30 +60,30 @@ class EMISSION_LINES:
         try:
             norm_Hd_flux = self.Hd.line_flux/self.Hb.line_flux
         except:
-            norm_Hd_flux = a_u(np.nan, np.nan, np.nan)
+            norm_Hd_flux = ufloat(np.nan, np.nan)
 
         try:
             norm_Hg_flux = self.Hg.line_flux/self.Hb.line_flux
         except:
-            norm_Hg_flux = a_u(np.nan, np.nan, np.nan)
+            norm_Hg_flux = ufloat(np.nan, np.nan)
 
         try:
             norm_Hb_flux = self.Hb.line_flux/self.Hb.line_flux
         except:
-            norm_Hb_flux = a_u(np.nan, np.nan, np.nan)
+            norm_Hb_flux = ufloat(np.nan, np.nan)
 
         try:
             norm_Ha_flux = self.Ha.line_flux/self.Hb.line_flux
         except:
-            norm_Ha_flux = a_u(np.nan, np.nan, np.nan)
+            norm_Ha_flux = ufloat(np.nan, np.nan)
 
         # making the arrays
-        flux_array    = np.array([norm_Hd_flux.value, norm_Hg_flux.value, norm_Hb_flux.value, norm_Ha_flux.value])
+        flux_array    = np.array([norm_Hd_flux.n, norm_Hg_flux.n, norm_Hb_flux.n, norm_Ha_flux.n])
 
-        fluxerr_array = np.array([(norm_Hd_flux.minus+norm_Hd_flux.plus)/2,
-                                  (norm_Hg_flux.minus+norm_Hg_flux.plus)/2,
-                                  (norm_Hb_flux.minus+norm_Hb_flux.plus)/2,
-                                  (norm_Ha_flux.minus+norm_Ha_flux.plus)/2])
+        fluxerr_array = np.array([norm_Hd_flux.s,
+                                  norm_Hg_flux.s,
+                                  norm_Hb_flux.s,
+                                  norm_Ha_flux.s])
 
         mask          = np.where(~((flux_array == 0) | (np.isnan(flux_array))))[0]
 

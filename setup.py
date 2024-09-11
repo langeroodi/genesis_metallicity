@@ -1,8 +1,11 @@
 from setuptools import setup, find_packages
 
+with open('requirements.txt') as f:
+    required = f.read().splitlines()
+
 setup(
     name='genesis_metallicity',
-    version='0.2',
+    version='0.9',
     packages=find_packages(),
     description='non-parametric gas-phase metallicity and electron temperature estimation',
     author='Danial Langeroodi',
@@ -14,4 +17,5 @@ setup(
     include_package_data=True,
     package_data={'genesis_metallicity': ['data/*.pkl']},
     python_requires='>=3.6',
+    install_requires=required,
 )

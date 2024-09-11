@@ -3,7 +3,6 @@ import numpy as np
 from copy import deepcopy
 from numpy.ma.core import maximum
 import pyneb as pn
-from asymmetric_uncertainty import a_u
 from uncertainties import ufloat
 from uncertainties import unumpy as unp
 
@@ -31,37 +30,37 @@ class METALLICITY:
         try:
             self.O3727  = data_dict['OII']/2
         except:
-            self.O3727  = a_u(np.nan, np.nan, np.nan)
+            self.O3727  = ufloat(np.nan, np.nan)
 
         try:
             self.O3729  = data_dict['OII']/2
         except:
-            self.O3729  = a_u(np.nan, np.nan, np.nan)
+            self.O3729  = ufloat(np.nan, np.nan)
 
         try:
             self.O4363  = data_dict['O4363']
         except:
-            self.O4363  = a_u(np.nan, np.nan, np.nan)
+            self.O4363  = ufloat(np.nan, np.nan)
 
         try:
             self.Hb     = data_dict['Hbeta']
         except:
-            self.Hb     = a_u(np.nan, np.nan, np.nan)
+            self.Hb     = ufloat(np.nan, np.nan)
 
         try:
             self.O4959  = data_dict['O4959']
         except:
-            self.O4959  = a_u(np.nan, np.nan, np.nan)
+            self.O4959  = ufloat(np.nan, np.nan)
 
         try:
             self.O5007  = data_dict['O5007']
         except:
-            self.O5007  = a_u(np.nan, np.nan, np.nan)
+            self.O5007  = ufloat(np.nan, np.nan)
 
         try:
             self.O7320  = data_dict['OII7320']
         except:
-            self.O7320  = a_u(np.nan, np.nan, np.nan)
+            self.O7320  = ufloat(np.nan, np.nan)
 
         #--------------------------------------#
         #---- calculating the Te_OII_O7320 ----#
@@ -76,7 +75,7 @@ class METALLICITY:
             O2           = pn.Atom('O', '2')
 
             OII_ratio    = (self.O3727+self.O3729) / self.O7320
-            OII_ratio    = np.array([OII_ratio.value-OII_ratio.minus, OII_ratio.value, OII_ratio.value+OII_ratio.plus])
+            OII_ratio    = np.array([OII_ratio.n-OII_ratio.s, OII_ratio.n, OII_ratio.n+OII_ratio.s])
             Te_OII_O7320 = O2.getTemDen(OII_ratio, wave1=3727, wave2=7320, den=global_den)
             Te_OII_O7320 = ufloat(min(Te_OII_O7320[1], 3e+4), np.abs(np.mean(np.diff(Te_OII_O7320))))
 
@@ -101,7 +100,7 @@ class METALLICITY:
             #---- calculate Te(OIII) ----#
 
             OIII_ratio = self.O4363 / self.O5007
-            OIII_ratio = np.array([OIII_ratio.value-OIII_ratio.minus, OIII_ratio.value, OIII_ratio.value+OIII_ratio.plus])
+            OIII_ratio = np.array([OIII_ratio.n-OIII_ratio.s, OIII_ratio.n, OIII_ratio.n+OIII_ratio.s])
             OIII_ratio = np.clip(OIII_ratio, a_min=None, a_max=0.0465)
             Te_OIII    = O3.getTemDen(OIII_ratio, wave1=4363, wave2=5007, den=global_den)
             Te_OIII    = ufloat(Te_OIII[1], np.mean(np.diff(Te_OIII)))
@@ -141,16 +140,16 @@ class METALLICITY:
             O2_ratio_asymunc = (self.O3727+self.O3729)/self.Hb
             O3_ratio_asymunc = self.O5007/self.Hb
 
-            O2_ratio         = ufloat(O2_ratio_asymunc.value, (O2_ratio_asymunc.minus+O2_ratio_asymunc.plus)/2)
-            O3_ratio         = ufloat(O3_ratio_asymunc.value, (O3_ratio_asymunc.minus+O3_ratio_asymunc.plus)/2)
+            O2_ratio         = ufloat(O2_ratio_asymunc.n, (O2_ratio_asymunc.s+O2_ratio_asymunc.s)/2)
+            O3_ratio         = ufloat(O3_ratio_asymunc.n, (O3_ratio_asymunc.s+O3_ratio_asymunc.s)/2)
 
             O2_ratio         = unp.log10([O2_ratio])[0]
             O3_ratio         = unp.log10([O3_ratio])[0]
 
-            Te_OII_Langeroodi_asymunc = measure_temperature(O2_ratio.n, O2_ratio.s,
-                                                            O3_ratio.n, O3_ratio.s,
-                                                            Te_OIII.n/1e+4, Te_OIII.s/1e+4)
-            Te_OII_Langeroodi = 1e+4 * ufloat(Te_OII_Langeroodi_asymunc.value, (Te_OII_Langeroodi_asymunc.minus+Te_OII_Langeroodi_asymunc.plus)/2)
+            Te_OII_Langeroodi = measure_temperature(O2_ratio.n, O2_ratio.s,
+                                                    O3_ratio.n, O3_ratio.s,
+                                                    Te_OIII.n/1e+4, Te_OIII.s/1e+4)
+            Te_OII_Langeroodi = 1e+4 * Te_OII_Langeroodi
             self.Te_OII_Langeroodi = Te_OII_Langeroodi
 
             #---- choosing a Te(OII) measurement ----#
@@ -169,22 +168,22 @@ class METALLICITY:
             #---- measuring the abundances ----#
 
             OIII4959_ratio    = self.O4959 / self.Hb
-            OIII4959_ratio    = np.array([OIII4959_ratio.value-OIII4959_ratio.minus, OIII4959_ratio.value, OIII4959_ratio.value+OIII4959_ratio.plus])
+            OIII4959_ratio    = np.array([OIII4959_ratio.n-OIII4959_ratio.s, OIII4959_ratio.n, OIII4959_ratio.n+OIII4959_ratio.s])
             OPP4959_abundance = O3.getIonAbundance(OIII4959_ratio, tem=[Te_OIII.n-Te_OIII.s, Te_OIII.n, Te_OIII.n+Te_OIII.s], den=[global_den,global_den,global_den], wave=4959, Hbeta=1)
             OPP4959_abundance = ufloat(OPP4959_abundance[1], np.mean(np.abs(np.diff(OPP4959_abundance))))
 
             OIII5007_ratio    = self.O5007 / self.Hb
-            OIII5007_ratio    = np.array([OIII5007_ratio.value-OIII5007_ratio.minus, OIII5007_ratio.value, OIII5007_ratio.value+OIII5007_ratio.plus])
+            OIII5007_ratio    = np.array([OIII5007_ratio.n-OIII5007_ratio.s, OIII5007_ratio.n, OIII5007_ratio.n+OIII5007_ratio.s])
             OPP5007_abundance = O3.getIonAbundance(OIII5007_ratio, tem=[Te_OIII.n-Te_OIII.s, Te_OIII.n, Te_OIII.n+Te_OIII.s], den=[global_den,global_den,global_den], wave=5007, Hbeta=1)
             OPP5007_abundance = ufloat(OPP5007_abundance[1], np.mean(np.abs(np.diff(OPP5007_abundance))))
 
             OII3727_ratio     = self.O3727 / self.Hb
-            OII3727_ratio     = np.array([OII3727_ratio.value-OII3727_ratio.minus, OII3727_ratio.value, OII3727_ratio.value+OII3727_ratio.plus])
+            OII3727_ratio     = np.array([OII3727_ratio.n-OII3727_ratio.s, OII3727_ratio.n, OII3727_ratio.n+OII3727_ratio.s])
             OP3727_abundance  = O2.getIonAbundance(OII3727_ratio, tem=[Te_OII.n-Te_OII.s, Te_OII.n, Te_OII.n+Te_OII.s], den=[global_den,global_den,global_den], wave=3727, Hbeta=1)
             OP3727_abundance  = ufloat(OP3727_abundance[1], np.mean(np.abs(np.diff(OP3727_abundance))))
 
             OII3729_ratio     = self.O3729 / self.Hb
-            OII3729_ratio     = np.array([OII3729_ratio.value-OII3729_ratio.minus, OII3729_ratio.value, OII3729_ratio.value+OII3729_ratio.plus])
+            OII3729_ratio     = np.array([OII3729_ratio.n-OII3729_ratio.s, OII3729_ratio.n, OII3729_ratio.n+OII3729_ratio.s])
             OP3729_abundance  = O2.getIonAbundance(OII3729_ratio, tem=[Te_OII.n-Te_OII.s, Te_OII.n, Te_OII.n+Te_OII.s], den=[global_den,global_den,global_den], wave=3729, Hbeta=1)
             OP3729_abundance  = ufloat(OP3729_abundance[1], np.mean(np.abs(np.diff(OP3729_abundance))))
 

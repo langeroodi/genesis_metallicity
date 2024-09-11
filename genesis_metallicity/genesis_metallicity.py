@@ -1,6 +1,7 @@
 import numpy as np
 from copy import deepcopy
-from asymmetric_uncertainty import a_u
+from uncertainties import ufloat
+from uncertainties import unumpy as unp
 
 from .data.lines import lines_dict, backend_lines, print_lines
 from .dust.extinction_correction import EMISSION_LINES
@@ -41,7 +42,7 @@ class genesis_metallicity:
         for line in lines_dict.keys():
             if line in input_dict.keys():
                 line_flux = input_dict[line]
-                data_dict[line] = a_u(line_flux[0], line_flux[1], line_flux[1])
+                data_dict[line] = ufloat(line_flux[0], line_flux[1])
 
         #---- OII ----#
 
@@ -83,7 +84,7 @@ class genesis_metallicity:
 
         for line in backend_lines:
             if line not in data_dict.keys():
-                data_dict[line] = a_u(np.nan, np.nan, np.nan)
+                data_dict[line] = ufloat(np.nan, np.nan, np.nan)
 
         #-------------------------------#
         #---- extinction correction ----#
@@ -102,7 +103,7 @@ class genesis_metallicity:
         metallicity_method = 'strong'
 
         try:
-            if (data_dict['O4363'].value/data_dict['O4363'].plus) > 1.0:
+            if (data_dict['O4363'].n/data_dict['O4363'].s) > 1.0:
                 metallicity_method = 'direct'
         except:
             metallicity_method = 'strong'
@@ -142,12 +143,12 @@ class genesis_metallicity:
 
         if self.metallicity_method == 'strong':
 
-            log_O2       = np.log10(calculate_O2())
-            log_O3       = np.log10(calculate_O3())
-            log_Hbeta_EW = np.log10(self.reddening_corrected_lines['Hbeta_EW'])
+            log_O2       = unp.log10([calculate_O2()])[0]
+            log_O3       = unp.log10([calculate_O3()])[0]
+            log_Hbeta_EW = unp.log10([self.reddening_corrected_lines['Hbeta_EW']])[0]
 
-            strong_metallicity = measure_metallicity(log_O2.value, (log_O2.minus+log_O2.plus)/2,
-                                                     log_O3.value, (log_O3.minus+log_O3.plus)/2,
-                                                     log_Hbeta_EW.value, (log_Hbeta_EW.minus+log_Hbeta_EW.plus)/2)
+            strong_metallicity = measure_metallicity(log_O2.n, log_O2.s,
+                                                     log_O3.n, log_O3.s,
+                                                     log_Hbeta_EW.n, log_Hbeta_EW.s)
 
             self.metallicity = strong_metallicity
