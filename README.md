@@ -44,7 +44,7 @@ print(' -> strong-line metallicity (standard deviation):', galaxy.metallicity.s)
 
 ### direct-method metallicity measurement
 
-If the temperature-sensitive [O III]$$\lambda$$4363 emission line is detected, the gas-phase metallicity can be measured directly. This is demonstrated in the example below, where the input emission lines remain the same as in the previous example, but with the addition of the [O III]$$\lambda$$4363 flux.
+If the temperature-sensitive [O III]4363 emission line is detected, the gas-phase metallicity can be measured directly. This is demonstrated in the example below, where the input emission lines remain the same as in the previous example, but with the addition of the [O III]4363 flux.
 
 ```python
 from genesis_metallicity.genesis_metallicity import genesis_metallicity
@@ -70,7 +70,7 @@ print(' -> direct-method metallicity (standard deviation):', galaxy.metallicity.
 
 ### electron temperature estimation
 
-It’s often desirable to estimate the $${\rm O}^{+}$$ electron temperature (t2) from the directly measured $${\rm O}^{++}$$ electron temperature (t3). This is particularly the case at high redshifts, where the t3 can be measured directly from the [O III]$$\lambda$$4363 line, while the t2 cannot be measured directly because the [O II]7320,30 doublet is often too faint or redshifted out of coverage. In such cases, the t2 estimations are carried out automatically by ```genesis_metallicity```, and the measured electron temperatures can be accessed as shown below.
+It’s often desirable to estimate the $${\rm O}^{+}$$ electron temperature (t2) from the directly measured $${\rm O}^{++}$$ electron temperature (t3). This is particularly the case at high redshifts, where the t3 can be measured directly from the [O III]4363 line, while the t2 cannot be measured directly because the [O II]7320,30 doublet is often too faint or redshifted out of coverage. In such cases, the t2 estimations are carried out automatically by ```genesis_metallicity```; the measured electron temperatures can be accessed as shown below.
 
 ```python
 from genesis_metallicity.genesis_metallicity import genesis_metallicity
@@ -104,7 +104,9 @@ print('-------------------------------------------------------------------------
 
 ### dust reddening correction
 
-By default, ```genesis_metallicity``` assumes that the input emission line fluxes are the observed values without any reddening correction (this behavior can be modified by the user; see the end of this paragraph). As such, the input line fluxes are automatically corrected for dust reddening. The meaured $$A_{\rm V}$$ as well as the reddening-corrected emission line fluxes can be accessed as shown below. Note that the ```galaxy.reddening_corrected_lines``` outpout is a dictionary, where for example the reddening corrected flux and flux uncertainty of $$H\beta$$ can be accessed as ```galaxy.reddening_corrected_lines['Hbeta'].n``` and ```galaxy.reddening_corrected_lines['Hbeta'].s```, respectively. If the input emission lines are already reddening-corrected, the reddening correction can be switched off by setting ```correct_extinction=False``` in the main ```genesis_metallicity``` function call; i.e., by calling the main routine as ```genesis_metallicity(input_dict, object=object, correct_extinction=False)```.
+By default, ```genesis_metallicity``` assumes that the input emission line fluxes are the observed values without any reddening correction (this behavior can be modified by the user; see the end of the next paragraph). As such, the input line fluxes are automatically corrected for dust reddening. The meaured V-band attenuation as well as the reddening-corrected emission line fluxes can be accessed as shown below. If the line of interest is included in the ```data/lines.py``` script, its flux can be included in the input dictionary for reddening correction. Otherwise, the line ID and rest-wavelength have to be added to ```data/lines.py``` by the user.
+
+Note that the ```galaxy.reddening_corrected_lines``` outpout is a dictionary, where the reddening-corrected line fluxes are stored. For instance, the reddening-corrected flux and flux uncertainty of Hbeta can be accessed as ```galaxy.reddening_corrected_lines['Hbeta'].n``` and ```galaxy.reddening_corrected_lines['Hbeta'].s```, respectively. If the input emission lines are already reddening-corrected, the reddening correction can be switched off by setting ```correct_extinction=False``` in the main ```genesis_metallicity``` function call; i.e., by calling the main routine as ```genesis_metallicity(input_dict, object=object, correct_extinction=False)```.
 
 ```python
 from genesis_metallicity.genesis_metallicity import genesis_metallicity
