@@ -1,5 +1,7 @@
 # genesis-metallicity
 
+[![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/langeroodi/genesis_metallicity/blob/main/LICENSE)
+
 non-parametric gas-phase metallicity and electron temperature estimation
 
 - __strong-line metallicity etstimation__ when temperature-sensitive emission lines are unavailable
