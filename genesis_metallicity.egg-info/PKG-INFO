@@ -1,9 +1,29 @@
+Metadata-Version: 2.1
+Name: genesis_metallicity
+Version: 1.0.0
+Summary: non-parametric gas-phase metallicity and electron temperature estimation
+Home-page: https://github.com/langeroodi/genesis_metallicity
+Author: Danial Langeroodi
+Author-email: dlangaroudi@gmail.com
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: setuptools==69.5.1
+Requires-Dist: numpy==1.24.3
+Requires-Dist: scipy==1.9.3
+Requires-Dist: h5py==3.11.0
+Requires-Dist: astropy==6.1.3
+Requires-Dist: matplotlib==3.8.4
+Requires-Dist: uncertainties==3.1.7
+Requires-Dist: PyNeb==1.1.18
+
 # genesis-metallicity
 
 [![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/langeroodi/genesis_metallicity/blob/main/LICENSE)
-[![arXiv](https://img.shields.io/badge/arXiv-2409.07455-b31b1b.svg)](https://arxiv.org/abs/2409.07455)
-
-*Calibration data: The calibration data will be publicly released upon the journal publication of the associated paper. In the meantime, do not hesitate to get in touch if you are interested in using this data in your work: danial.langeroodi@nbi.ku.dk*
 
 non-parametric gas-phase metallicity and electron temperature estimation
 
@@ -133,49 +153,4 @@ galaxy = genesis_metallicity(input_dict, object=object)
 print(' -> Av:', galaxy.Av)
 print(' -> reddening-corrected line fluxes:')
 print(galaxy.reddening_corrected_lines)
-```
-
-Citation
--------
-
-If you used ```genesis-metallicity``` in your research, please reference:
-
-```bibtext
-@ARTICLE{2024arXiv240907455L,
-       author = {{Langeroodi}, Danial and {Hjorth}, Jens},
-        title = "{Genesis-Metallicity: Universal Non-Parametric Gas-Phase Metallicity Estimation}",
-      journal = {arXiv e-prints},
-     keywords = {Astrophysics - Astrophysics of Galaxies},
-         year = 2024,
-        month = sep,
-          eid = {arXiv:2409.07455},
-        pages = {arXiv:2409.07455},
-archivePrefix = {arXiv},
-       eprint = {2409.07455},
- primaryClass = {astro-ph.GA},
-       adsurl = {https://ui.adsabs.harvard.edu/abs/2024arXiv240907455L},
-      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
-}
-```
-
-If you use the direct-method module of ```genesis-metallicity```, in addition to the above please also reference ```PyNeb```:
-
-```bitext
-@ARTICLE{2015A&A...573A..42L,
-       author = {{Luridiana}, V. and {Morisset}, C. and {Shaw}, R.~A.},
-        title = "{PyNeb: a new tool for analyzing emission lines. I. Code description and validation of results}",
-      journal = {\aap},
-     keywords = {methods: numerical, atomic data, Hii regions, planetary nebulae: general, ISM: abundances, Astrophysics - Instrumentation and Methods for Astrophysics, Astrophysics - Solar and Stellar Astrophysics},
-         year = 2015,
-        month = jan,
-       volume = {573},
-          eid = {A42},
-        pages = {A42},
-          doi = {10.1051/0004-6361/201323152},
-archivePrefix = {arXiv},
-       eprint = {1410.6662},
- primaryClass = {astro-ph.IM},
-       adsurl = {https://ui.adsabs.harvard.edu/abs/2015A&A...573A..42L},
-      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
-}
 ```
