@@ -3,14 +3,14 @@
 [![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/langeroodi/genesis_metallicity/blob/main/LICENSE)
 [![arXiv](https://img.shields.io/badge/arXiv-2409.07455-b31b1b.svg)](https://arxiv.org/abs/2409.07455)
 
-*Calibration data: The calibration data will be publicly released upon the journal publication of the associated paper. In the meantime, do not hesitate to get in touch if you are interested in using this data in your work: danial.langeroodi@nbi.ku.dk*
-
 non-parametric gas-phase metallicity and electron temperature estimation
 
 - __strong-line metallicity etstimation__ when temperature-sensitive emission lines are unavailable
 - __direct-method metallicity measurement__ when the temperature-sensetive [O III]4363 line is detected (can also include [O II]7320,30 if available)
 - __O⁺ electron temperature estimation__ from that of the O⁺⁺ zone when direct measurements of the former are unavailable
 - __dust reddening correction__ of the observed emission line fluxes when multiple Balmer lines are detected
+
+*Calibration data: The calibration data will be publicly released upon the journal publication of the associated paper. In the meantime, do not hesitate to get in touch if you are interested in using this data in your work: danial.langeroodi@nbi.ku.dk*
 
 Installation
 -------
