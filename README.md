@@ -138,7 +138,7 @@ print(galaxy.reddening_corrected_lines)
 Citation
 -------
 
-If you used ```genesis-metallicity``` in your research, please reference:
+If you use ```genesis-metallicity``` in your research, please reference the [associated paper](https://ui.adsabs.harvard.edu/abs/2024arXiv240907455L/abstract):
 
 ```bibtext
 @ARTICLE{2024arXiv240907455L,
