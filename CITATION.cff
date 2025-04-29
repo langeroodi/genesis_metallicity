@@ -1,0 +1,58 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: genesis_metallicity
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Danial
+    family-names: Langeroodi
+    email: dlangaroudi@gmail.com
+    affiliation: 'DARK, Niels Bohr Institute, University of Copenhagen'
+    orcid: 'https://orcid.org/0000-0001-5710-8395'
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.15306794
+    description: zenodo
+  - type: url
+    value: 'https://arxiv.org/abs/2409.07455'
+    description: arXiv
+repository-code: >-
+  https://github.com/langeroodi/genesis_metallicity/tree/main
+url: 'https://langeroodi.github.io/software.html'
+abstract: >-
+  We introduce genesis-metallicity, a gas-phase metallicity
+  measurement python software employing the direct and
+  strong-line methods depending on the available oxygen
+  lines. The non-parametric strong-line estimator is
+  calibrated based on a kernel density estimate in the
+  4-dimensional space of O2 = [O II]λλ3727,29/Hβ; O3 = [O
+  III]λ5007/Hβ; Hβ equivalent width EW(Hβ); and gas-phase
+  metallicity 12 + log(O/H). We use a calibration sample of
+  1510 galaxies at 0 < z < 10 with direct-method metallicity
+  measurements, compiled from the JWST/NIRSpec and
+  ground-based observations. In particular, we report 122
+  new NIRSpec direct-method metallicity measurements at z >
+  1. We show that the O2, O3, and EW(Hβ) measurements are
+  sufficient for a gas-phase metallicity estimate that is
+  more accurate than 0.09 dex. Our calibration is universal,
+  meaning that its accuracy does not depend on the target
+  redshift. Furthermore, the direct-method module employs a
+  non-parametric te(O II) electron temperature estimator
+  based on a kernel density estimate in the 5-dimensional
+  space of O2, O3, EW(Hβ), te(O II), and te(O III). This
+  te(O II) estimator is calibrated based on 1004 spectra
+  with [O III]λ4363 and [O II]λλ7320,30 detections, notably
+  reporting 20 new NIRSpec detections of the [O II]λλ7320,30
+  doublet. We make genesis-metallicity and its calibration
+  data publicly available and commit to keeping both
+  up-to-date in light of the incoming data.
+keywords:
+  - 'astrophysics-software '
+  - kernel-density-estimation
+license: MIT
+version: 1.2.0
+date-released: '2025-04-29'
