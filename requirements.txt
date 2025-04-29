@@ -1,8 +1,8 @@
-setuptools==69.5.1
-numpy==1.24.3
-scipy==1.9.3
-h5py==3.11.0
-astropy==5.3.4
-matplotlib==3.8.4
-uncertainties==3.1.7
-PyNeb==1.1.18
+setuptools
+numpy
+scipy
+h5py
+astropy
+matplotlib
+uncertainties
+PyNeb

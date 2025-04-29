@@ -5,11 +5,13 @@ import pickle as pkl
 from scipy import stats
 from uncertainties import ufloat
 
+from ..data.custom_kde import CustomKDE
+
 warnings.filterwarnings("ignore", message="divide by zero encountered in scalar divide")
 warnings.filterwarnings("ignore", message="invalid value encountered in scalar multiply")
 warnings.filterwarnings("ignore", message="invalid value encountered in scalar divide")
 
-dimensions = 3
+dimensions = 2
 percentile = stats.chi2.cdf(1, df=dimensions)
 
 ##########
@@ -27,10 +29,25 @@ if load_presaved:
 
     genesis_metallicity_base_path = os.path.dirname(__file__)
     genesis_metallicity_base_path = os.path.dirname(genesis_metallicity_base_path)
-    kernel_metallicity_path       = os.path.join(genesis_metallicity_base_path, 'data', 'kernel_metallicity_noEWHb.pkl')
+    kernel_metallicity_path       = os.path.join(genesis_metallicity_base_path, 'data', 'kernel_metallicity_noEWHb_vblind.pkl')
 
     with open(kernel_metallicity_path, 'rb') as handle:
-        kernel_metallicity = pkl.load(handle)
+        config_dict = pkl.load(handle)
+
+    load_cv_ml = ~np.any(np.isnan(config_dict['bandwidths']))
+
+    if load_cv_ml:
+
+        bandwidths         = config_dict['bandwidths']
+        covariance_matrix  = np.diag(bandwidths ** 2)
+        try:
+            kernel_metallicity = CustomKDE(config_dict['values'], covariance=covariance_matrix)
+        except:
+            load_cv_ml = False
+
+    if not load_cv_ml:
+
+        kernel_metallicity = stats.gaussian_kde(config_dict['values'])
 
 ##########################################
 # Function for Measuring the Metallicity #

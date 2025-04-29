@@ -47,7 +47,7 @@ Providing EW(Hβ) measurements is recommended but not strictly required. If EW(H
 ```python
 from genesis_metallicity.genesis_metallicity import genesis_metallicity
 
-object = 'JADES_3675'
+object = '1180_40000170'
 
 input_dict = {}
 input_dict['redshift'] = 9.43
@@ -72,7 +72,7 @@ If the temperature-sensitive [O III]4363 emission line is detected, the gas-phas
 ```python
 from genesis_metallicity.genesis_metallicity import genesis_metallicity
 
-object = 'JADES_3675'
+object = '1180_40000170'
 
 input_dict = {}
 input_dict['redshift'] = 9.43
@@ -98,7 +98,7 @@ It’s often desirable to estimate the O⁺ electron temperature (t2) from the d
 ```python
 from genesis_metallicity.genesis_metallicity import genesis_metallicity
 
-object = 'JADES_3675'
+object = '1180_40000170'
 
 input_dict = {}
 input_dict['redshift'] = 9.43
@@ -134,7 +134,7 @@ Note that the ```galaxy.reddening_corrected_lines``` outpout is a dictionary, wh
 ```python
 from genesis_metallicity.genesis_metallicity import genesis_metallicity
 
-object = 'JADES_3675'
+object = '1180_40000170'
 
 input_dict = {}
 input_dict['redshift'] = 9.43

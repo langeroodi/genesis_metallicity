@@ -10,6 +10,7 @@ from ..temperature.temperature_estimator import measure_temperature
 
 warnings.filterwarnings('ignore', category=RuntimeWarning, message='invalid value encountered in log10')
 warnings.filterwarnings('ignore', category=RuntimeWarning, message='invalid value encountered in sqrt')
+warnings.filterwarnings("ignore", category=FutureWarning, message='.*AffineScalarFunc.*')
 
 pn.atomicData.setDataFile('o_iii_coll_Pal12-AK99.dat')
 

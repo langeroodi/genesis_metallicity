@@ -5,6 +5,8 @@ import pickle as pkl
 from scipy import stats
 from uncertainties import ufloat
 
+from ..data.custom_kde import CustomKDE
+
 warnings.filterwarnings("ignore", message="divide by zero encountered in scalar divide")
 warnings.filterwarnings("ignore", message="invalid value encountered in scalar multiply")
 warnings.filterwarnings("ignore", message="invalid value encountered in scalar divide")
@@ -19,34 +21,33 @@ percentile = stats.chi2.cdf(1, df=dimensions)
 load_presaved = True
 test          = False
 
-####################
-# Custom KDE Class #
-####################
-
-class CustomKDE(stats.gaussian_kde):
-    def __init__(self, dataset, covariance):
-        super().__init__(dataset)
-        self.covariance = covariance
-        self.inv_cov = np.linalg.inv(covariance)
-
 #####################
 # Making the Kernel #
 #####################
-
-class FixUnpickler(pkl.Unpickler):
-    def find_class(self, module, name):
-        if module == '__main__' and name == 'CustomKDE':
-            return CustomKDE
-        return super().find_class(module, name)
 
 if load_presaved:
 
     genesis_metallicity_base_path = os.path.dirname(__file__)
     genesis_metallicity_base_path = os.path.dirname(genesis_metallicity_base_path)
-    kernel_metallicity_path       = os.path.join(genesis_metallicity_base_path, 'data', 'kernel_metallicity.pkl')
+    kernel_metallicity_path       = os.path.join(genesis_metallicity_base_path, 'data', 'kernel_metallicity_vblind.pkl')
 
     with open(kernel_metallicity_path, 'rb') as handle:
-        kernel_metallicity = FixUnpickler(handle).load()
+        config_dict = pkl.load(handle)
+
+    load_cv_ml = ~np.any(np.isnan(config_dict['bandwidths']))
+
+    if load_cv_ml:
+
+        bandwidths         = config_dict['bandwidths']
+        covariance_matrix  = np.diag(bandwidths ** 2)
+        try:
+            kernel_metallicity = CustomKDE(config_dict['values'], covariance=covariance_matrix)
+        except:
+            load_cv_ml = False
+
+    if not load_cv_ml:
+
+        kernel_metallicity = stats.gaussian_kde(config_dict['values'])
 
 ##########################################
 # Function for Measuring the Metallicity #
