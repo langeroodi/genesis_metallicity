@@ -29,7 +29,7 @@ pip uninstall -y genesis_metallicity
 pip install --upgrade genesis_metallicity
 ```
 
-You can always check the installed package by
+You can check the installed version by
 
 ```python
 import genesis_metallicity
