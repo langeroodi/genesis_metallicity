@@ -1,5 +1,4 @@
 import numpy as np
-from copy import deepcopy
 from uncertainties import ufloat
 from uncertainties import unumpy as unp
 
@@ -7,6 +6,7 @@ from .data.lines import lines_dict, backend_lines, print_lines
 from .dust.extinction_correction import EMISSION_LINES
 from .metallicity.direct_method import METALLICITY
 from .metallicity.strong_method import measure_metallicity
+from .metallicity.strong_method_noEWHb import measure_metallicity as measure_metallicity_noEWHb
 
 #######################
 # genesis-metallicity #
@@ -67,13 +67,7 @@ class genesis_metallicity:
 
         if 'Hbeta' not in data_dict.keys():
             print_lines()
-            raise ImportError('Hbeta flux is required! please provide it under the \'Hbeta\' key in the input dictionary')
-
-        #---- EWHb ----#
-
-        if 'Hbeta_EW' not in data_dict.keys():
-            print_lines()
-            raise ImportError('Hbeta equivalent width is required! please provide it under the \'Hbeta_EW\' key in the input dictionary')
+            raise Warning('Hbeta flux is required! please provide it under the \'Hbeta\' key in the input dictionary')
 
         #---- O7320 and O7330 ----#
 
@@ -145,10 +139,14 @@ class genesis_metallicity:
 
             log_O2       = unp.log10([calculate_O2()])[0]
             log_O3       = unp.log10([calculate_O3()])[0]
-            log_Hbeta_EW = unp.log10([self.reddening_corrected_lines['Hbeta_EW']])[0]
+            log_Hbeta_EW = unp.log10([data_dict['Hbeta_EW']])[0]
 
-            strong_metallicity = measure_metallicity(log_O2.n, log_O2.s,
-                                                     log_O3.n, log_O3.s,
-                                                     log_Hbeta_EW.n, log_Hbeta_EW.s)
+            if ~np.isnan(log_Hbeta_EW.n):
+                strong_metallicity = measure_metallicity(log_O2.n, log_O2.s,
+                                                        log_O3.n, log_O3.s,
+                                                        log_Hbeta_EW.n, log_Hbeta_EW.s)
+            if np.isnan(log_Hbeta_EW.n):
+                strong_metallicity = measure_metallicity_noEWHb(log_O2.n, log_O2.s,
+                                                                log_O3.n, log_O3.s)
 
             self.metallicity = strong_metallicity

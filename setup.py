@@ -6,9 +6,15 @@ with open('README.md', 'r', encoding='utf-8') as f:
 with open('requirements.txt') as f:
     required = f.read().splitlines()
 
+VERSION = '1.1.0'
+def write_version_py(filename='genesis_metallicity/version.py'):
+    with open(filename, 'w') as f:
+        f.write(f"__version__ = '{VERSION}'\n")
+write_version_py()
+
 setup(
     name='genesis_metallicity',
-    version='1.0.0',
+    version=VERSION,
     packages=find_packages(),
     description='non-parametric gas-phase metallicity and electron temperature estimation',
     long_description=long_description,

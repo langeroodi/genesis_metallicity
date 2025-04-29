@@ -19,34 +19,18 @@ percentile = stats.chi2.cdf(1, df=dimensions)
 load_presaved = True
 test          = False
 
-####################
-# Custom KDE Class #
-####################
-
-class CustomKDE(stats.gaussian_kde):
-    def __init__(self, dataset, covariance):
-        super().__init__(dataset)
-        self.covariance = covariance
-        self.inv_cov = np.linalg.inv(covariance)
-
 #####################
 # Making the Kernel #
 #####################
-
-class FixUnpickler(pkl.Unpickler):
-    def find_class(self, module, name):
-        if module == '__main__' and name == 'CustomKDE':
-            return CustomKDE
-        return super().find_class(module, name)
 
 if load_presaved:
 
     genesis_metallicity_base_path = os.path.dirname(__file__)
     genesis_metallicity_base_path = os.path.dirname(genesis_metallicity_base_path)
-    kernel_metallicity_path       = os.path.join(genesis_metallicity_base_path, 'data', 'kernel_metallicity.pkl')
+    kernel_metallicity_path       = os.path.join(genesis_metallicity_base_path, 'data', 'kernel_metallicity_noEWHb.pkl')
 
     with open(kernel_metallicity_path, 'rb') as handle:
-        kernel_metallicity = FixUnpickler(handle).load()
+        kernel_metallicity = pkl.load(handle)
 
 ##########################################
 # Function for Measuring the Metallicity #
@@ -54,10 +38,9 @@ if load_presaved:
 
 def measure_metallicity(O2, O2_unc,
                         O3, O3_unc,
-                        Hbeta_EW, Hbeta_EW_unc,
                         length=3):
 
-    #---- making the O2, O3, EW(Hb), Z matrix ----#
+    #---- making the O2, O3, Z matrix ----#
 
     o2_top = np.linspace(O2, O2+O2_unc, length)
     o2_bot = np.linspace(O2, O2-O2_unc, length)
@@ -69,17 +52,12 @@ def measure_metallicity(O2, O2_unc,
     o3     = np.concatenate((o3_bot, o3_top))
     o3     = np.unique(o3)
 
-    hb_top = np.linspace(Hbeta_EW, Hbeta_EW+Hbeta_EW_unc, length)
-    hb_bot = np.linspace(Hbeta_EW, Hbeta_EW-Hbeta_EW_unc, length)
-    hb     = np.concatenate((hb_bot, hb_top))
-    hb     = np.unique(hb)
-
     z      = np.arange(6.00, 10.01, 0.01)
 
-    o2o2, o3o3, hbhb, zz = np.meshgrid(o2, o3, hb, z, indexing='ij')
-    grid_array           = np.stack([o2o2, o3o3, hbhb, zz], axis=-1)
-    grid_array           = grid_array.reshape(-1, 4)
-    grid_array           = grid_array.T
+    o2o2, o3o3, zz = np.meshgrid(o2, o3, z, indexing='ij')
+    grid_array     = np.stack([o2o2, o3o3, zz], axis=-1)
+    grid_array     = grid_array.reshape(-1, 3)
+    grid_array     = grid_array.T
 
     #---- making the weights matrix ----#
 
@@ -89,13 +67,10 @@ def measure_metallicity(O2, O2_unc,
     o3_wht = stats.norm.pdf(o3, loc=O3, scale=O3_unc)
     o3_wht = o3_wht/o3_wht[length-1]
 
-    hb_wht = stats.norm.pdf(hb, loc=Hbeta_EW, scale=Hbeta_EW_unc)
-    hb_wht = hb_wht/hb_wht[length-1]
-
     z_wht  = np.ones(len(z))
 
-    o2o2_wht, o3o3_wht, hbhb_wht, zz_wht = np.meshgrid(o2_wht, o3_wht, hb_wht, z_wht, indexing='ij')
-    weight_array = np.stack([o2o2_wht, o3o3_wht, hbhb_wht, zz_wht], axis=-1)
+    o2o2_wht, o3o3_wht, zz_wht = np.meshgrid(o2_wht, o3_wht, z_wht, indexing='ij')
+    weight_array = np.stack([o2o2_wht, o3o3_wht, zz_wht], axis=-1)
     weight_array = np.prod(weight_array, axis=-1)
     weight_array = weight_array.reshape(-1)
 

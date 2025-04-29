@@ -193,7 +193,7 @@ class EMISSION_LINES:
         self.corrected_dict = {}
 
         for line in data_dict.keys():
-            if line not in ['redshift', 'metallicity', 'red._corr.']:
+            if line not in ['redshift', 'metallicity', 'red._corr.', 'Hbeta_EW']:
 
                 try:
                     line_flux   = deepcopy(data_dict[line])

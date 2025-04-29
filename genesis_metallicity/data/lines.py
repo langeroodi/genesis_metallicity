@@ -116,15 +116,16 @@ lines_dict['OII7320']['depend']  = None
 
 #---- function to list the required lines and their metallicity ----#
 
-required_lines = np.array(['OII', 'Hbeta', 'Hbeta_EW', 'O4959', 'O5007'])
-optional_lines = np.array(['Hdelta', 'Hgamma', 'O4363', 'Halpha', 'OII7320'])
+required_lines = np.array(['OII', 'Hbeta', 'O4959', 'O5007'])
+optional_lines = np.array(['Hdelta', 'Hgamma', 'O4363', 'Hbeta_EW', 'Halpha', 'OII7320'])
 backend_lines  = np.concatenate((required_lines, optional_lines))
 
 description_dict = {}
-description_dict['OII']     = ': sum of the \'O3727\' and \'O3729\' lines (can accept the components separately)'
-description_dict['O4959']   = ': can accept as \'OIII\' if not resolved from \'O5007\''
-description_dict['O5007']   = ': can accept as \'OIII\' if not resolved from \'O4959\''
-description_dict['OII7320'] = ': sum of the \'O7320\' and \'O7330\' lines (can accept the components separately)'
+description_dict['OII']      = ': sum of the \'O3727\' and \'O3729\' lines (can accept the components separately)'
+description_dict['Hbeta_EW'] = ': equivalent width of Hbeta'
+description_dict['O4959']    = ': can accept as \'OIII\' if not resolved from \'O5007\''
+description_dict['O5007']    = ': can accept as \'OIII\' if not resolved from \'O4959\''
+description_dict['OII7320']  = ': sum of the \'O7320\' and \'O7330\' lines (can accept the components separately)'
 
 def print_lines():
 

@@ -12,6 +12,8 @@ non-parametric gas-phase metallicity and electron temperature estimation
 
 *Calibration data: The calibration data will be publicly released upon the journal publication of the associated paper. In the meantime, do not hesitate to get in touch if you are interested in using this data in your work: danial.langeroodi@nbi.ku.dk*
 
+*Real-valued 5D and 4D images of our electron temperature and gas-phase metallicity KDEs are available in the [images/](images/) directory.*
+
 Installation
 -------
 ``genesis_metallicity`` is pip installable:
@@ -20,11 +22,27 @@ Installation
 pip install genesis_metallicity
 ```
 
+It is recommended to keep the package up to date to use the largest available calibration sample. To install the most recent version:
+
+```bash
+pip uninstall -y genesis_metallicity
+pip install --upgrade genesis_metallicity
+```
+
+You can always check the installed package by
+
+```python
+import genesis_metallicity
+print(genesis_metallicity.__version__)
+```
+
 Examples
 -------
 ### strong-line metallcitiy estimation
 
-The following is an example of the "strong-line" metallicity estimation. The emission line measurements are imported in a python dictionary, where a python list with two items is entered for each emission line: the first item corresponds to the measured line flux and the second item corresponds to the flux uncertainty. Note that providing the object ID and redshift, as done below, are optional and only meant to assist with bookkeeping.
+The following is an example of "strong-line" metallicity estimation. The emission line measurements are imported into a Python dictionary, where a Python list with two items is entered for each emission line: the first item corresponds to the measured line flux, and the second item corresponds to the flux uncertainty. Note that providing the object ID and redshift, as done below, is optional and intended only to assist with bookkeeping.
+
+Providing EW(Hβ) measurements is recommended but not strictly required. If EW(Hβ) measurements are not available, simply do not provide them in the dictionary below; the metallicity estimator will instead adopt an EW(Hβ)-independent calibration. This applies to other modules as well.
 
 ```python
 from genesis_metallicity.genesis_metallicity import genesis_metallicity
