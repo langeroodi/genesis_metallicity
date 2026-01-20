@@ -29,25 +29,24 @@ if load_presaved:
 
     genesis_metallicity_base_path = os.path.dirname(__file__)
     genesis_metallicity_base_path = os.path.dirname(genesis_metallicity_base_path)
-    kernel_temperature_path       = os.path.join(genesis_metallicity_base_path, 'data', 'kernel_temperature_vblind.pkl')
+    data_temperature_path         = os.path.join(genesis_metallicity_base_path, 'data', 'data_temperature.pkl')
 
-    with open(kernel_temperature_path, 'rb') as handle:
-        config_dict = pkl.load(handle)
+    with open(data_temperature_path, 'rb') as handle:
+        uniform_dict = pkl.load(handle)
 
-    load_cv_ml = ~np.any(np.isnan(config_dict['bandwidths']))
+    uniform_O2 = uniform_dict['O2']
+    uniform_O3 = uniform_dict['O3']
+    uniform_t3 = uniform_dict['t3']
+    uniform_t2 = uniform_dict['t2']
 
-    if load_cv_ml:
+    X1, X2, X3, Z = np.mgrid[min(uniform_O2)*0.8:max(uniform_O2)*1.2:10j,
+                             min(uniform_O3)*0.8:max(uniform_O3)*1.2:10j,
+                             min(uniform_t3)*0.8:max(uniform_t3)*1.2:10j,
+                             min(uniform_t2)*0.8:max(uniform_t2)*1.2:50j]
+    positions     = np.vstack([X1.ravel(), X2.ravel(), X3.ravel(), Z.ravel()])
+    values        = np.vstack([uniform_O2, uniform_O3, uniform_t3, uniform_t2])
 
-        bandwidths         = config_dict['bandwidths']
-        covariance_matrix  = np.diag(bandwidths ** 2)
-        try:
-            kernel_temperature = CustomKDE(config_dict['values'], covariance=covariance_matrix)
-        except:
-            load_cv_ml = False
-
-    if not load_cv_ml:
-
-        kernel_temperature = stats.gaussian_kde(config_dict['values'])
+    kernel_temperature = stats.gaussian_kde(values)
 
 ##################################
 # Function for Estimating the T2 #
@@ -56,7 +55,7 @@ if load_presaved:
 def measure_temperature(O2, O2_unc,
                         O3, O3_unc,
                         T3, T3_unc,
-                        length=3):
+                        length=1):
 
     #---- making the O2, O3, t3, t2 matrix ----#
 
@@ -130,5 +129,5 @@ def measure_temperature(O2, O2_unc,
     up_index          = np.argmin(np.abs(cdf-(ml_cdf+percentile/2)))
 
     output_array      = [pdf_t2[lo_index], ml_t2, pdf_t2[up_index]]
-    output_t2         = ufloat(ml_t2, np.mean(np.diff(output_array)))
+    output_t2         = ufloat(output_array[1], np.mean(np.diff(output_array)))
     return output_t2

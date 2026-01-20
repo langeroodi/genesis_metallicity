@@ -160,7 +160,7 @@ class METALLICITY:
 
             if np.isnan(self.Te_OII_O7320.n):
 
-                if (t2_calibration == 'L24') and (8500 < Te_OIII.n < 14000):
+                if (t2_calibration == 'L24') and (8500 < Te_OIII.n < 30000):
                     Te_OII = deepcopy(self.Te_OII_Langeroodi)
 
                 else:

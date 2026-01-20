@@ -10,10 +10,6 @@ non-parametric gas-phase metallicity and electron temperature estimation
 - __O⁺ electron temperature estimation__ from that of the O⁺⁺ zone when direct measurements of the former are unavailable
 - __dust reddening correction__ of the observed emission line fluxes when multiple Balmer lines are detected
 
-*Calibration data: The calibration data will be publicly released upon the journal publication of the associated paper. In the meantime, do not hesitate to get in touch if you are interested in using this data in your work: danial.langeroodi@nbi.ku.dk*
-
-*Real-valued 5D and 4D images of our electron temperature and gas-phase metallicity KDEs are available in the [images/](images/) directory.*
-
 Installation
 -------
 ``genesis_metallicity`` is pip installable:
@@ -35,6 +31,13 @@ You can check the installed version by
 import genesis_metallicity
 print(genesis_metallicity.__version__)
 ```
+
+Calibration Data
+-------
+
+**The full calibration catalog is available in the [calibration_data/](calibration_data/) directory. Please refer the readme file in the same directory for further information on the structure of the presented catalog.**
+
+This catalog contains program and MSA IDs (for JWST sources), SDSS identifiers (for SDSS sources), redshifts, sky coordinates, observed and reddening-corrected emission line fluxes, Hβ equivalent widths, and inferred dust attenuation, electron temperatures, and direct-method gas-phase metallicities for the galaxies used in calibrating ```genesis_metallicity```.
 
 Examples
 -------

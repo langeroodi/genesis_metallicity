@@ -6,7 +6,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 with open('requirements.txt') as f:
     required = f.read().splitlines()
 
-VERSION = '1.2.0'
+VERSION = '1.3.0'
 def write_version_py(filename='genesis_metallicity/version.py'):
     with open(filename, 'w') as f:
         f.write(f"__version__ = '{VERSION}'\n")

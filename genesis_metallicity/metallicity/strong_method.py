@@ -29,25 +29,32 @@ if load_presaved:
 
     genesis_metallicity_base_path = os.path.dirname(__file__)
     genesis_metallicity_base_path = os.path.dirname(genesis_metallicity_base_path)
-    kernel_metallicity_path       = os.path.join(genesis_metallicity_base_path, 'data', 'kernel_metallicity_vblind.pkl')
+    data_metallicity_path         = os.path.join(genesis_metallicity_base_path, 'data', 'data_metallicity.pkl')
 
-    with open(kernel_metallicity_path, 'rb') as handle:
-        config_dict = pkl.load(handle)
+    with open(data_metallicity_path, 'rb') as handle:
+        uniform_dict = pkl.load(handle)
 
-    load_cv_ml = ~np.any(np.isnan(config_dict['bandwidths']))
+    uniform_O2          = uniform_dict['O2']
+    uniform_O3          = uniform_dict['O3']
+    uniform_EWHbeta     = uniform_dict['EWHbeta']
+    uniform_metallicity = uniform_dict['metallicity']
+    bandwidths          = uniform_dict['bandwidths']
 
-    if load_cv_ml:
+    X1, X2, X3, Z = np.mgrid[min(uniform_O2)*0.8:max(uniform_O2)*1.2:10j,
+                             min(uniform_O3)*0.8:max(uniform_O3)*1.2:10j,
+                             min(uniform_EWHbeta)*0.8:max(uniform_EWHbeta)*1.2:10j,
+                             min(uniform_metallicity)*0.8:max(uniform_metallicity)*1.2:10j]
+    positions     = np.vstack([X1.ravel(), X2.ravel(), X3.ravel(), Z.ravel()])
+    values        = np.vstack([uniform_O2, uniform_O3, uniform_EWHbeta, uniform_metallicity])
 
-        bandwidths         = config_dict['bandwidths']
-        covariance_matrix  = np.diag(bandwidths ** 2)
-        try:
-            kernel_metallicity = CustomKDE(config_dict['values'], covariance=covariance_matrix)
-        except:
-            load_cv_ml = False
+    class CustomKDE(stats.gaussian_kde):
+        def __init__(self, dataset, covariance):
+            super().__init__(dataset)
+            self.covariance = covariance
+            self.inv_cov = np.linalg.inv(covariance)
 
-    if not load_cv_ml:
-
-        kernel_metallicity = stats.gaussian_kde(config_dict['values'])
+    covariance_matrix  = np.diag(bandwidths ** 2)
+    kernel_metallicity = CustomKDE(values, covariance=covariance_matrix)
 
 ##########################################
 # Function for Measuring the Metallicity #
@@ -56,7 +63,7 @@ if load_presaved:
 def measure_metallicity(O2, O2_unc,
                         O3, O3_unc,
                         Hbeta_EW, Hbeta_EW_unc,
-                        length=3):
+                        length=1):
 
     #---- making the O2, O3, EW(Hb), Z matrix ----#
 
