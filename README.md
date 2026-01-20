@@ -35,7 +35,7 @@ print(genesis_metallicity.__version__)
 Calibration Data
 -------
 
-**The full calibration catalog is available in the [calibration_data/](calibration_data/) directory. Please refer the readme file in the same directory for further information on the structure of the presented catalog.**
+**The full calibration catalog is available in the [calibration_data/](calibration_data/) directory. Please refer to the readme file in the same directory for further information on the structure of the presented catalog.**
 
 This catalog contains program and MSA IDs (for JWST sources), SDSS identifiers (for SDSS sources), redshifts, sky coordinates, observed and reddening-corrected emission line fluxes, Hβ equivalent widths, and inferred dust attenuation, electron temperatures, and direct-method gas-phase metallicities for the galaxies used in calibrating ```genesis_metallicity```.
 
