@@ -18,7 +18,7 @@ Installation
 pip install genesis_metallicity
 ```
 
-The current version is 1.3.0. It is recommended to keep the package up to date to use the largest available calibration sample. If you have an older version installed, you can install the most recent version by:
+The current version is 1.4.0. It is recommended to keep the package up to date to use the largest available calibration sample. If you have an older version installed, you can install the most recent version by:
 
 ```bash
 pip uninstall -y genesis_metallicity
