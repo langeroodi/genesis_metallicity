@@ -159,22 +159,25 @@ print(galaxy.reddening_corrected_lines)
 Citation
 -------
 
-If you use ```genesis-metallicity``` in your research, please reference the [associated paper](https://ui.adsabs.harvard.edu/abs/2024arXiv240907455L/abstract):
+If you use ```genesis-metallicity``` in your research, please reference the [associated paper](https://ui.adsabs.harvard.edu/abs/2026ApJ...997L..30L/abstract):
 
 ```bibtext
-@ARTICLE{2024arXiv240907455L,
+@ARTICLE{2026ApJ...997L..30L,
        author = {{Langeroodi}, Danial and {Hjorth}, Jens},
-        title = "{Genesis-Metallicity: Universal Non-Parametric Gas-Phase Metallicity Estimation}",
-      journal = {arXiv e-prints},
-     keywords = {Astrophysics - Astrophysics of Galaxies},
-         year = 2024,
-        month = sep,
-          eid = {arXiv:2409.07455},
-        pages = {arXiv:2409.07455},
+        title = "{Genesis-metallicity: Universal Nonparametric Gas-phase Metallicity Estimation}",
+      journal = {\apjl},
+     keywords = {High-redshift galaxies, Metallicity, Interstellar medium, Chemical enrichment, 734, 1031, 847, 225, Astrophysics of Galaxies},
+         year = 2026,
+        month = jan,
+       volume = {997},
+       number = {1},
+          eid = {L30},
+        pages = {L30},
+          doi = {10.3847/2041-8213/ae346f},
 archivePrefix = {arXiv},
        eprint = {2409.07455},
  primaryClass = {astro-ph.GA},
-       adsurl = {https://ui.adsabs.harvard.edu/abs/2024arXiv240907455L},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2026ApJ...997L..30L},
       adsnote = {Provided by the SAO/NASA Astrophysics Data System}
 }
 ```

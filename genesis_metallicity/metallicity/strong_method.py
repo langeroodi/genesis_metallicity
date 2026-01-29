@@ -2,10 +2,10 @@ import os
 import warnings
 import numpy as np
 import pickle as pkl
+from numpy import pi
 from scipy import stats
+from scipy.linalg import cholesky
 from uncertainties import ufloat
-
-from ..data.custom_kde import CustomKDE
 
 warnings.filterwarnings("ignore", message="divide by zero encountered in scalar divide")
 warnings.filterwarnings("ignore", message="invalid value encountered in scalar multiply")
@@ -48,10 +48,28 @@ if load_presaved:
     values        = np.vstack([uniform_O2, uniform_O3, uniform_EWHbeta, uniform_metallicity])
 
     class CustomKDE(stats.gaussian_kde):
+
         def __init__(self, dataset, covariance):
             super().__init__(dataset)
-            self.covariance = covariance
-            self.inv_cov = np.linalg.inv(covariance)
+
+            cov = np.asarray(covariance, dtype=float)
+            self.covariance = cov
+
+            self.cho_cov = cholesky(cov, lower=True).astype(np.float64)
+            self.log_det = 2 * np.log(np.diag(self.cho_cov * np.sqrt(2*pi))).sum()
+
+            self.inv_cov = np.linalg.inv(cov)
+
+            det_cov = np.linalg.det(cov)
+            self._norm_factor = np.sqrt(((2*np.pi)**self.d) * det_cov) * self.n
+
+        @property
+        def inv_cov(self):
+            return self._inv_cov
+
+        @inv_cov.setter
+        def inv_cov(self, value):
+            self._inv_cov = np.asarray(value, dtype=float)
 
     covariance_matrix  = np.diag(bandwidths ** 2)
     kernel_metallicity = CustomKDE(values, covariance=covariance_matrix)

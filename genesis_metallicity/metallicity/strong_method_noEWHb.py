@@ -5,8 +5,6 @@ import pickle as pkl
 from scipy import stats
 from uncertainties import ufloat
 
-from ..data.custom_kde import CustomKDE
-
 warnings.filterwarnings("ignore", message="divide by zero encountered in scalar divide")
 warnings.filterwarnings("ignore", message="invalid value encountered in scalar multiply")
 warnings.filterwarnings("ignore", message="invalid value encountered in scalar divide")
